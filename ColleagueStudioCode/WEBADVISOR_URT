@@ -14,7 +14,7 @@
 * -------------
 *   Elements:
 *   ----------
-*       * ID
+*       * ID - LOCAL
 *       * ORG.ENTITY.ENV.ID - LOCAL
 *       * OEE.USERNAME - LOCAL
 *       * OEE.RESOURCE - LOCAL
