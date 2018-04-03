@@ -1,0 +1,68 @@
+*============================================================
+* WEBADVISOR_URT WebAdvisor Username Retrieval Tool
+* -------------------------------------------------
+* Colleague Transaction(CTX) that retrives the
+* PERSON.ID.LOGIN using the S.GET.PERSON.ID.LOGIN subroutine.
+*
+* Overview Tab:
+* ----------
+*   Alias:
+*   ----------
+*       URT
+*
+* Elements Tab:
+* -------------
+*   Elements:
+*   ----------
+*       * ID
+*       * ORG.ENTITY.ENV.ID - LOCAL
+*       * OEE.USERNAME - LOCAL
+*       * OEE.RESOURCE - LOCAL
+*       * ORG.ENTITY.ENV.ADDDATE - LOCAL
+*
+*   Variables:
+*   ----------
+*       * PERSON.ID IN
+*       * WEBADVISOR.USERNAME OUT
+*       * DATE.CREATED OUT
+*
+* Code Tab:
+* ----------
+*============================================================
+
+* "Start of the program"
+V.ID = V.PERSON.ID
+GOSUB MIOSEL.ORG.ENTITY.ENV
+V.ORG.ENTITY.ENV.ID = X.OEE.ID<1,1>
+
+IF LEN(V.ID) > 0 THEN
+    FOR_THIS ORG.ENTITY.ENV.ID
+        V.DATE.CREATED = V.ORG.ENTITY.ENV.ADDDATE
+    END_THIS ORG.ENTITY.ENV.ID
+END
+ELSE
+    V.DATE.CREATED = ''
+END
+
+X.USERID = V.PERSON.ID
+X.LOGIN = ''
+X.ERROR = ''
+
+CALL S.GET.PERSON.ID.LOGIN(X.LOGIN, X.ERROR, X.USERID)
+
+V.WEBADVISOR.USERNAME = OCONV(X.LOGIN,"MCL")
+V.DATE.CREATED = OCONV(V.DATE.CREATED, "D4/")
+
+* "End of the program"
+
+*============================================================
+MIOSEL.ORG.ENTITY.ENV:
+*---------------------
+X.OEE.ID = ""
+IF LEN(V.ID) > 0 THEN
+    X.STMT = "-H MIOSEL ORG.ENTITY.ENV WITH OEE.ENVIRONMENT EQ 'DMI' AND WITH OEE.RESOURCE EQ '":V.ID:"'"
+    CALL S.EXECUTE(X.STMT)
+    CALL S.READLIST(X.OEE.ID, "", "")
+    CONVERT @FM TO @VM IN X.OEE.ID
+END
+RETURN
