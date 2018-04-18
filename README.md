@@ -11,7 +11,7 @@ Code for the ELive 2018 Rest Easy session.
 
 ## PowerShell Client
 
-* [Colleague Web API PowerShell Client](./PowerShell Client/ColleagueWebAPI_PoShClient.ps1)
+* [Colleague Web API PowerShell Client](./PowerShell%20Client/ColleagueWebAPI_PoShClient.ps1)
     * Basic PowerShell Client using the Colleague WebAPI.
 
 
